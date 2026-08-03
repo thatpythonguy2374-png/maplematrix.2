@@ -145,7 +145,7 @@ const HeroLightRays = () => {
               hsl(24 95% 40% / ${isDark ? 0.22 : 0.07}) 40%,
               transparent 80%
             )`,
-            filter: "blur(50px)",
+            filter: "blur(24px)",
           }}
         />
       </div>

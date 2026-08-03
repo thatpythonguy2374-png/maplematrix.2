@@ -1,10 +1,23 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* Light + dark editorial design system for the Maple Matrix site */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Italic-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
 @layer base {
   :root {
     /* ---- Light mode (default) ---- */
@@ -209,6 +222,13 @@
     transform: scale(1.02);
   }
 }
+@keyframes glowPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.75; }
+        }
+        .glow-pulse {
+          animation: glowPulse 3s ease-in-out infinite;
+        }
 
 .animate-ray-sway-1 {
   animation: ray-sway-1 25s ease-in-out infinite;

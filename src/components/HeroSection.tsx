@@ -13,7 +13,9 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex flex-col">
       {/* Light rays background - rendered first, behind everything */}
-      <HeroLightRays />
+      <div className="hidden lg:block">
+        <HeroLightRays />
+      </div>
 
       {/* Hero Content */}
       <div className="container mx-auto px-4 md:px-6 py-8 md:py-12 lg:py-16 relative z-10 flex-1 flex items-center">
@@ -29,19 +31,19 @@ const HeroSection = () => {
             renders fully visible immediately; the parallax transform is kept
             since transform doesn't block paint the way opacity does.
           */}
-          <h1
+          <div
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-4 sm:mb-6 xl:text-6xl"
             style={{
               transform: `translateY(${headlineParallax}px)`,
             }}>
-            Web Design That
+            <h1>Web Design That</h1>
             <br className="hidden sm:block" />
             <span className="sm:hidden"> </span>
             <span className="text-primary font-lora inline-block glow-pulse">
               Speaks
             </span>{" "}
             For Your Brand.
-          </h1>
+          </div>
 
           {/* Subheadline — same reasoning: visible immediately, no opacity gate */}
           <p
@@ -60,25 +62,6 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-
-      <style>{`
-        /*
-          Replaces the old subtleGlow keyframe, which animated text-shadow and
-          filter — both non-composited properties, meaning the browser had to
-          repaint on the main thread every frame, forever, for as long as the
-          page stayed open. This is very likely your "Avoid non-composited
-          animations" finding. opacity is compositor-only: the GPU handles it
-          without involving the main thread at all, so this gets a similar
-          subtle pulsing feel at effectively zero ongoing cost.
-        */
-        @keyframes glowPulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.75; }
-        }
-        .glow-pulse {
-          animation: glowPulse 3s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   );
 };
