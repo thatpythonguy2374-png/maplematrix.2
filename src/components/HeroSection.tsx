@@ -13,9 +13,8 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex flex-col">
       {/* Light rays background - rendered first, behind everything */}
-      <div className="hidden lg:block">
-        <HeroLightRays />
-      </div>
+
+      <HeroLightRays />
 
       {/* Hero Content */}
       <div className="container mx-auto px-4 md:px-6 py-8 md:py-12 lg:py-16 relative z-10 flex-1 flex items-center">
