@@ -206,62 +206,6 @@ const FinalCTASection = () => {
                   transformOrigin: "center top",
                   willChange: "transform",
                 }}>
-                {/* Shimmer placeholder - genuine loading transition here since
-                    the globe canvas below always mounts on this desktop-only branch */}
-                <div
-                  className="absolute inset-0 flex items-center justify-center pointer-events-none"
-                  style={{
-                    opacity: 1,
-                    transition: "opacity 0.5s ease-out",
-                  }}>
-                  <div
-                    className="rounded-full overflow-hidden"
-                    style={{
-                      width: "min(400px, 80vw)",
-                      height: "min(400px, 80vw)",
-                      transform: "translate3d(0, 0, 0)",
-                    }}>
-                    {/* Base dark sphere */}
-                    <div className="absolute inset-0 rounded-full bg-background" />
-
-                    {/* Shimmer effect */}
-                    <div
-                      className="absolute inset-0 rounded-full animate-shimmer"
-                      style={{
-                        background: `linear-gradient(
-                          110deg,
-                          transparent 30%,
-                          hsl(var(--foreground) / 0.04) 45%,
-                          hsl(var(--foreground) / 0.08) 50%,
-                          hsl(var(--foreground) / 0.04) 55%,
-                          transparent 70%
-                        )`,
-                        backgroundSize: "200% 100%",
-                      }}
-                    />
-
-                    {/* Orange glow ring */}
-                    <div
-                      className="absolute inset-0 rounded-full"
-                      style={{
-                        boxShadow: `
-                          inset 0 0 60px 20px hsl(24 95% 50% / 0.15),
-                          0 0 80px 30px hsl(24 95% 50% / 0.2)
-                        `,
-                      }}
-                    />
-
-                    {/* Subtle dot pattern hint */}
-                    <div
-                      className="absolute inset-0 rounded-full opacity-20"
-                      style={{
-                        backgroundImage: `radial-gradient(circle, hsl(var(--foreground) / 0.3) 1px, transparent 1px)`,
-                        backgroundSize: "20px 20px",
-                      }}
-                    />
-                  </div>
-                </div>
-
                 {/* Globe canvas - lazy loaded, fades in over placeholder */}
                 <Suspense fallback={null}>
                   <InteractiveGlobe />
