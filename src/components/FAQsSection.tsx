@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AccordionToggleButton } from "@/components/AccordionToggleButton";
 
 const faqs = [
   {
@@ -53,35 +53,6 @@ const faqs = [
   },
 ];
 
-interface AccordionButtonProps {
-  isOpen: boolean;
-  onClick: () => void;
-}
-
-const AccordionButton = ({ isOpen, onClick }: AccordionButtonProps) => (
-  <button
-    onClick={onClick}
-    className={cn(
-      "w-9 h-9 rounded-lg flex items-center justify-center",
-      "bg-primary/10 border border-primary/30",
-      "shadow-[0_2px_8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)]",
-      // transition-all -> transition: identical visible effect here (background,
-      // border, box-shadow, transform), but skips watching layout properties.
-      "transition duration-200 ease-out",
-      "hover:bg-primary/20 hover:border-primary/50 hover:shadow-[0_4px_12px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.15)] hover:-translate-y-0.5",
-      "active:translate-y-0 active:shadow-[0_1px_4px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)]",
-      "focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background",
-    )}
-    aria-expanded={isOpen}
-    aria-label={isOpen ? "Collapse answer" : "Expand answer"}>
-    {isOpen ? (
-      <X className="w-4 h-4 text-primary transition-transform duration-200" />
-    ) : (
-      <Plus className="w-4 h-4 text-primary transition-transform duration-200" />
-    )}
-  </button>
-);
-
 const FAQsSection = () => {
   const [openFaqId, setOpenFaqId] = useState<number | null>(null);
 
@@ -92,7 +63,6 @@ const FAQsSection = () => {
   return (
     <section id="faqs" className="py-16 sm:py-20 md:py-32">
       <div className="container mx-auto px-4 md:px-6">
-        {/* Section Header */}
         <div className="text-center mb-10 md:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
             Frequently asked{" "}
@@ -104,7 +74,6 @@ const FAQsSection = () => {
         </div>
 
         <div className="max-w-3xl mx-auto">
-          {/* FAQ Accordion */}
           <div className="space-y-3">
             {faqs.map((faq) => {
               const isOpen = openFaqId === faq.id;
@@ -114,14 +83,10 @@ const FAQsSection = () => {
                   key={faq.id}
                   className={cn(
                     "relative bg-card border border-border rounded-2xl overflow-hidden",
-                    // Only border-color actually changes here on open/close, so
-                    // transition-colors is enough — transition-all was making the
-                    // browser watch every property on 8 accordion items at once.
                     "transition-colors duration-300 ease-out",
                     "group",
                     isOpen && "border-primary/30",
                   )}>
-                  {/* Accordion Header */}
                   <button
                     onClick={() => toggleFaq(faq.id)}
                     className={cn(
@@ -141,15 +106,15 @@ const FAQsSection = () => {
                     <div
                       className="flex-shrink-0 mt-0.5"
                       onClick={(e) => e.stopPropagation()}>
-                      <AccordionButton
+                      <AccordionToggleButton
                         isOpen={isOpen}
                         onClick={() => toggleFaq(faq.id)}
+                        openLabel="Collapse answer"
+                        closeLabel="Expand answer"
                       />
                     </div>
                   </button>
 
-                  {/* Accordion Content — the CSS grid-rows [0fr]/[1fr] trick is already
-                      the efficient way to animate height without measuring in JS; kept as-is */}
                   <div
                     id={`faq-content-${faq.id}`}
                     className={cn(

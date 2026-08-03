@@ -1,46 +1,69 @@
-import { useEffect, useState, useRef, RefObject } from 'react';
+import { useEffect, useState, useRef, RefObject } from "react";
 
 interface ParallaxOptions {
   speed?: number; // Multiplier for scroll effect (0.1 = slow, 1 = match scroll)
-  direction?: 'up' | 'down';
+  direction?: "up" | "down";
   clamp?: boolean; // Limit maximum displacement
   maxDisplacement?: number;
 }
 
 export function useParallax<T extends HTMLElement = HTMLDivElement>(
-  options: ParallaxOptions = {}
+  options: ParallaxOptions = {},
 ): { ref: RefObject<T>; offset: number } {
-  const { speed = 0.3, direction = 'up', clamp = true, maxDisplacement = 150 } = options;
+  const {
+    speed = 0.3,
+    direction = "up",
+    clamp = true,
+    maxDisplacement = 150,
+  } = options;
   const ref = useRef<T>(null);
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let rafId: number | null = null;
+
+    // getBoundingClientRect (a layout read) and setOffset (a render-triggering
+    // write) are batched into a single requestAnimationFrame tick instead of
+    // running once per raw scroll event. Without this, a fast scroll can fire
+    // dozens of layout reads per second — the "Forced reflow" pattern — since
+    // each read has to wait for any pending style/layout work to flush first.
+    const measure = () => {
+      rafId = null;
       if (!ref.current) return;
-      
+
       const rect = ref.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
-      // Calculate how far the element is from center of viewport
+
       const elementCenter = rect.top + rect.height / 2;
       const viewportCenter = windowHeight / 2;
       const distanceFromCenter = elementCenter - viewportCenter;
-      
-      // Apply parallax based on distance from center
-      let parallaxOffset = distanceFromCenter * speed * (direction === 'up' ? 1 : -1);
-      
-      // Clamp the offset if needed
+
+      let parallaxOffset =
+        distanceFromCenter * speed * (direction === "up" ? 1 : -1);
+
       if (clamp) {
-        parallaxOffset = Math.max(-maxDisplacement, Math.min(maxDisplacement, parallaxOffset));
+        parallaxOffset = Math.max(
+          -maxDisplacement,
+          Math.min(maxDisplacement, parallaxOffset),
+        );
       }
-      
+
       setOffset(parallaxOffset);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial calculation
+    const handleScroll = () => {
+      if (rafId === null) {
+        rafId = requestAnimationFrame(measure);
+      }
+    };
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    measure(); // Initial calculation
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, [speed, direction, clamp, maxDisplacement]);
 
   return { ref, offset };
@@ -51,14 +74,26 @@ export function useScrollParallax(speed: number = 0.5): number {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let rafId: number | null = null;
+
+    const measure = () => {
+      rafId = null;
       setScrollY(window.scrollY * speed);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    const handleScroll = () => {
+      if (rafId === null) {
+        rafId = requestAnimationFrame(measure);
+      }
+    };
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    measure();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, [speed]);
 
   return scrollY;

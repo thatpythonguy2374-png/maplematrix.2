@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProjectButton } from "@/components/EnrollButton";
+import { AccordionToggleButton } from "@/components/AccordionToggleButton";
 
 const services = [
   {
     id: 1,
     title: "Website Design & Development",
     tagline: "Bespoke sites that convert",
-    summary: "Custom-designed marketing and company websites built for performance, SEO, and memorable brand presence.",
+    summary:
+      "Custom-designed marketing and company websites built for performance, SEO, and memorable brand presence.",
     details: [
       { label: "Custom UI/UX design", value: "no templates" },
       { label: "Responsive across all devices", value: "mobile-first" },
@@ -20,7 +21,8 @@ const services = [
     id: 2,
     title: "E-commerce & Online Stores",
     tagline: "Stores built to sell",
-    summary: "Conversion-focused online stores on Shopify, WooCommerce, or custom stacks—designed around your products and customers.",
+    summary:
+      "Conversion-focused online stores on Shopify, WooCommerce, or custom stacks—designed around your products and customers.",
     details: [
       { label: "Shopify / WooCommerce", value: "platform experts" },
       { label: "Product & catalog setup", value: "ready to sell" },
@@ -32,7 +34,8 @@ const services = [
     id: 3,
     title: "Web Apps & SaaS Products",
     tagline: "Scalable tools and dashboards",
-    summary: "Frontend-heavy web applications, dashboards, and MVPs built with React, TypeScript, and modern architecture.",
+    summary:
+      "Frontend-heavy web applications, dashboards, and MVPs built with React, TypeScript, and modern architecture.",
     details: [
       { label: "React + TypeScript", value: "modern stack" },
       { label: "Dashboards & internal tools", value: "data-driven" },
@@ -44,7 +47,8 @@ const services = [
     id: 4,
     title: "API & Integration",
     tagline: "Connect your systems",
-    summary: "We connect your website or app to the services you already use—CRMs, payment providers, analytics, and custom APIs.",
+    summary:
+      "We connect your website or app to the services you already use—CRMs, payment providers, analytics, and custom APIs.",
     details: [
       { label: "Third-party API integrations", value: "seamless data flow" },
       { label: "Custom backend endpoints", value: "tailored logic" },
@@ -56,7 +60,8 @@ const services = [
     id: 5,
     title: "SEO, Hosting & Maintenance",
     tagline: "Keep it fast and secure",
-    summary: "Ongoing support that keeps your site fast, secure, and search-visible long after launch.",
+    summary:
+      "Ongoing support that keeps your site fast, secure, and search-visible long after launch.",
     details: [
       { label: "Technical SEO audits", value: "higher rankings" },
       { label: "Performance monitoring", value: "always fast" },
@@ -65,34 +70,6 @@ const services = [
     ],
   },
 ];
-
-interface AccordionButtonProps {
-  isOpen: boolean;
-  onClick: () => void;
-}
-
-const AccordionButton = ({ isOpen, onClick }: AccordionButtonProps) => (
-  <button
-    onClick={onClick}
-    className={cn(
-      "w-9 h-9 rounded-lg flex items-center justify-center",
-      "bg-primary/10 border border-primary/30",
-      "shadow-[0_2px_8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)]",
-      "transition-all duration-200 ease-out",
-      "hover:bg-primary/20 hover:border-primary/50 hover:shadow-[0_4px_12px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.15)] hover:-translate-y-0.5",
-      "active:translate-y-0 active:shadow-[0_1px_4px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)]",
-      "focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background"
-    )}
-    aria-expanded={isOpen}
-    aria-label={isOpen ? "Collapse service" : "Expand service"}
-  >
-    {isOpen ? (
-      <X className="w-4 h-4 text-primary transition-transform duration-200" />
-    ) : (
-      <Plus className="w-4 h-4 text-primary transition-transform duration-200" />
-    )}
-  </button>
-);
 
 const CourseStructureSection = () => {
   const [openServiceId, setOpenServiceId] = useState<number | null>(1);
@@ -105,7 +82,6 @@ const CourseStructureSection = () => {
     <section id="services" className="py-16 sm:py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 max-w-6xl mx-auto">
-          {/* Left Column - Title & Description */}
           <div className="lg:sticky lg:top-32 lg:self-start space-y-6 sm:space-y-8">
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
@@ -113,36 +89,34 @@ const CourseStructureSection = () => {
                 <span className="text-primary font-lora">startups</span>
               </h2>
               <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                From your first landing page to a full-featured web application, 
+                From your first landing page to a full-featured web application,
                 we help growing brands launch, scale, and stand out online.
               </p>
             </div>
 
-            {/* CTA Button */}
             <ProjectButton size="lg" fullWidthMobile />
           </div>
 
-          {/* Right Column - Accordion */}
           <div className="space-y-3">
             {services.map((service) => {
               const isOpen = openServiceId === service.id;
-              
+
               return (
                 <div
                   key={service.id}
                   className={cn(
                     "group relative bg-card border border-border rounded-2xl overflow-hidden",
-                    "transition-all duration-300 ease-out",
+                    // transition-all -> transition: only border-color, box-shadow, and
+                    // transform change on this element; naming them keeps the browser
+                    // from watching layout-affecting properties unnecessarily.
+                    "transition duration-300 ease-out",
                     "hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]",
                     "active:translate-y-0 active:shadow-[0_4px_15px_rgba(0,0,0,0.25)]",
-                    isOpen && "border-primary/30"
-                  )}
-                >
-                  {/* Shimmer overlay */}
+                    isOpen && "border-primary/30",
+                  )}>
                   <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300 z-10">
                     <div className="absolute inset-[-100%] bg-[linear-gradient(90deg,transparent_0%,transparent_40%,hsl(var(--primary)/0.12)_50%,transparent_60%,transparent_100%)] animate-shimmer" />
                   </div>
-                  {/* Accordion Header */}
                   <button
                     onClick={() => toggleService(service.id)}
                     className={cn(
@@ -150,11 +124,10 @@ const CourseStructureSection = () => {
                       "transition-colors duration-200",
                       "hover:bg-secondary/30 active:bg-secondary/40",
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-inset",
-                      "touch-manipulation"
+                      "touch-manipulation",
                     )}
                     aria-expanded={isOpen}
-                    aria-controls={`service-content-${service.id}`}
-                  >
+                    aria-controls={`service-content-${service.id}`}>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-1">
                         <span className="text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full">
@@ -168,22 +141,26 @@ const CourseStructureSection = () => {
                         {service.summary}
                       </p>
                     </div>
-                    <div 
+                    <div
                       className="flex-shrink-0 mt-1"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <AccordionButton isOpen={isOpen} onClick={() => toggleService(service.id)} />
+                      onClick={(e) => e.stopPropagation()}>
+                      <AccordionToggleButton
+                        isOpen={isOpen}
+                        onClick={() => toggleService(service.id)}
+                        openLabel="Collapse service"
+                        closeLabel="Expand service"
+                      />
                     </div>
                   </button>
 
-                  {/* Accordion Content */}
                   <div
                     id={`service-content-${service.id}`}
                     className={cn(
                       "grid transition-all duration-300 ease-out",
-                      isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                    )}
-                  >
+                      isOpen
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0",
+                    )}>
                     <div className="overflow-hidden">
                       <div className="px-5 pb-5">
                         <div className="border-t border-border pt-4">
@@ -191,8 +168,7 @@ const CourseStructureSection = () => {
                             {service.details.map((detail, index) => (
                               <li
                                 key={index}
-                                className="flex items-center justify-between gap-4 py-2"
-                              >
+                                className="flex items-center justify-between gap-4 py-2">
                                 <div className="flex items-center gap-3 min-w-0">
                                   <span className="w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-xs text-muted-foreground flex-shrink-0">
                                     {index + 1}
