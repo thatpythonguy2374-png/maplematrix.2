@@ -3,25 +3,34 @@ import { AnimatePresence } from "framer-motion";
 import PageTransition from "./PageTransition";
 import ScrollToTop from "./ScrollToTop";
 import Index from "@/pages/Index";
-import Contact from "@/pages/Contact";
-import TermsOfService from "@/pages/TermsOfService";
-import PrivacyPolicy from "@/pages/PrivacyPolicy";
-import NotFound from "@/pages/NotFound";
-import StartProject from "@/pages/StartYourProject";
-import About from "@/pages/About";
-import Services from "@/pages/Services";
-import WebsiteDevelopment from "@/pages/services/WebsiteDevelopment";
-import UiUxDesign from "@/pages/services/UiUxDesign";
-import ECommerce from "@/pages/services/ECommerce";
-import WebApplications from "@/pages/services/WebApplications";
-import MobileApps from "@/pages/services/MobileApps";
-import Branding from "@/pages/services/Branding";
-import Seo from "@/pages/services/Seo";
-import DigitalMarketing from "@/pages/services/DigitalMarketing";
-import WebsiteMaintenance from "@/pages/services/WebsiteMaintenance";
+import { lazy } from "react";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
+  const Contact = lazy(() => import("@/pages/Contact"));
+  const StartProject = lazy(() => import("@/pages/StartYourProject"));
+  const About = lazy(() => import("@/pages/About"));
+  const Services = lazy(() => import("@/pages/Services"));
+  const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
+  const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
+  const NotFound = lazy(() => import("@/pages/NotFound"));
+  const ECommerce = lazy(() => import("@/pages/services/ECommerce"));
+  const WebApplications = lazy(
+    () => import("@/pages/services/WebApplications"),
+  );
+  const MobileApps = lazy(() => import("@/pages/services/MobileApps"));
+  const Branding = lazy(() => import("@/pages/services/Branding"));
+  const Seo = lazy(() => import("@/pages/services/Seo"));
+  const WebsiteMaintenance = lazy(
+    () => import("@/pages/services/WebsiteMaintenance"),
+  );
+  const DigitalMarketing = lazy(
+    () => import("@/pages/services/DigitalMarketing"),
+  );
+  const UiUxDesign = lazy(() => import("@/pages/services/UiUxDesign"));
+  const WebsiteDevelopment = lazy(
+    () => import("@/pages/services/WebsiteDevelopment"),
+  );
 
   return (
     <>

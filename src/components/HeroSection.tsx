@@ -45,11 +45,7 @@ const HeroSection = () => {
           </div>
 
           {/* Subheadline — same reasoning: visible immediately, no opacity gate */}
-          <p
-            className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl sm:max-w-2xl mx-auto mb-8 sm:mb-12 px-2"
-            style={{
-              transform: `translateY(${subheadlineParallax}px)`,
-            }}>
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl sm:max-w-2xl mx-auto mb-8 sm:mb-12 px-2">
             Where creativity meets clean structure. We combine modern
             engineering with thoughtful design to build websites and web apps
             that are fast, accessible, and built to last.

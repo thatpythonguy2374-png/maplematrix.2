@@ -40,7 +40,8 @@ const Logo = ({ showText = true, size = "md", className }: LogoProps) => {
     <div className={cn("flex items-center gap-1.5", className)}>
       <img
         src={currentLogo}
-        alt="Maple Matrix"
+        alt="Maple Matrix logo"
+        title="Maple Matrix Logo"
         className={cn(
           size === "sm" && "h-8",
           size === "md" && "h-10",

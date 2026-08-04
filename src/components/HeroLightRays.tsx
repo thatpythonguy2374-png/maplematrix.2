@@ -60,19 +60,26 @@ const HeroLightRays = () => {
         <div
           className="absolute top-0 left-1/2 origin-top animate-ray-sway-2"
           style={{
-            width: isDesktop ? "280px" : "180px",
+            width: isDesktop ? "280px" : "58vw",
             height: "120%",
-            transform: `translateX(-50%) rotate(-8deg) translateY(${scrollOffset * 0.2}px)`,
-            background: `linear-gradient(
-              to bottom,
-              hsl(24 95% 55% / ${isDark ? 0.75 : 0.26}) 0%,
-              hsl(24 95% 50% / ${isDark ? 0.4 : 0.14})25%,
-              hsl(24 95% 45% / ${isDark ? 0.15 : 0.05}) 55%,
-              transparent 100%
-            )`,
+            transform: `
+  translateX(-50%)
+  rotate(${isDesktop ? -8 : 0}deg)
+  translateY(${scrollOffset * 0.2}px)
+`,
+
+            background: `
+radial-gradient(
+ellipse at top,
+hsl(24 95% 55% / ${isDark ? 0.75 : 0.28}) 0%,
+hsl(24 95% 50% / ${isDark ? 0.35 : 0.12}) 35%,
+transparent 80%
+)
+`,
             filter: isDesktop ? "blur(35px)" : "blur(18px)",
           }}
         />
+
         {isDesktop && (
           <>
             {/* Ray 1 - Center left */}
@@ -92,7 +99,6 @@ const HeroLightRays = () => {
                 filter: "blur(40px)",
               }}
             />
-
             {/* Ray 3 - Center right */}
             <div
               className="absolute top-0 left-1/2 origin-top animate-ray-sway-3"
@@ -110,7 +116,6 @@ const HeroLightRays = () => {
                 filter: "blur(38px)",
               }}
             />
-
             {/* Ray 4 - Far left */}
             <div
               className="absolute top-0 left-1/2 origin-top animate-ray-sway-4"

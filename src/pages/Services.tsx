@@ -150,15 +150,19 @@ export default function Services() {
                     <div
                       id={service.id}
                       key={service.title}
-                      className={`group relative overflow-hidden rounded-3xl border border-primary/15 bg-white/5 md:backdrop-blur-xl p-6 sm:p-10 transition-transform duration-500 hover:-translate-y-2 hover:border-primary/60 md:hover:shadow-[0_0_35px_rgba(249,115,22,.2)] ${
+                      className={`group relative overflow-hidden rounded-3xl border border-primary/15 bg-white/5 md:backdrop-blur-xl p-6 sm:p-10 md:transition-transform md:duration-500 md:hover:-translate-y-2 md:hover:border-primary/60 md:hover:shadow-[0_0_35px_rgba(249,115,22,.2)] ${
                         service.size === "lg"
                           ? "lg:col-span-8"
                           : "lg:col-span-4"
                       } flex flex-col`}>
                       {/* backdrop-blur-xl is desktop-only above: on mobile the layered
                           frosted-glass effect is one of the heaviest paint operations
-                          the browser can do, especially repeated across 4 cards */}
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 sm:mb-8 border border-primary/20 transition-transform group-hover:scale-110">
+                          the browser can do, especially repeated across 4 cards.
+                          Hover/translate is also gated to md: and up — on mobile
+                          there's no real hover, but a tap can still trigger and hold
+                          the :hover state, so leaving it unscoped costs an extra
+                          transform + repaint on every card tap for no visual payoff. */}
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 sm:mb-8 border border-primary/20 md:transition-transform md:group-hover:scale-110">
                         <Icon
                           className="w-6 h-6 sm:w-7 sm:h-7 text-primary"
                           strokeWidth={1.7}
@@ -188,7 +192,9 @@ export default function Services() {
                         </div>
                       </div>
 
-                      {/* Plain SVG icon, no blur/filter — cheap, safe to keep on mobile */}
+                      {/* Plain SVG icon, no blur/filter — cheap, safe to keep on mobile.
+                          Opacity transition still keyed off group-hover, which now
+                          only actually fires on md:+ per the parent's hover scoping. */}
                       <Terminal className="absolute -right-8 -bottom-8 w-40 h-40 sm:w-48 sm:h-48 text-primary opacity-[0.03] transition-opacity duration-1000 group-hover:opacity-[0.06]" />
                     </div>
                   );
