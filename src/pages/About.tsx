@@ -206,8 +206,11 @@ export default function About() {
           <div className="container mx-auto max-w-7xl px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
               {/* backdrop-blur-xl is desktop-only: 3 stacked frosted-glass cards is a
-                  heavy repeated GPU cost on mobile for a subtlety most users never notice */}
-              <div className="group h-full rounded-3xl border border-primary/15 bg-white/5 md:backdrop-blur-xl p-6 sm:p-10 transition-transform duration-500 hover:-translate-y-2 hover:border-primary/60 md:hover:shadow-[0_0_35px_rgba(249,115,22,.25)] flex flex-col">
+                  heavy repeated GPU cost on mobile for a subtlety most users never notice.
+                  Hover-driven transform/border/shadow are also gated to md: and up — on
+                  mobile a tap can trigger and hold the :hover state, so leaving these
+                  unscoped costs an extra layout+repaint on every card tap for no payoff. */}
+              <div className="group h-full rounded-3xl border border-primary/15 bg-white/5 md:backdrop-blur-xl p-6 sm:p-10 md:transition-transform md:duration-500 md:hover:-translate-y-2 md:hover:border-primary/60 md:hover:shadow-[0_0_35px_rgba(249,115,22,.25)] flex flex-col">
                 <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-5">
                   Our Mission
                 </h3>
@@ -223,7 +226,7 @@ export default function About() {
                 </p>
               </div>
 
-              <div className="group h-full rounded-3xl border border-primary/15 bg-white/5 md:backdrop-blur-xl p-6 sm:p-10 transition-transform duration-500 hover:-translate-y-2 hover:border-primary/60 md:hover:shadow-[0_0_35px_rgba(249,115,22,.25)] flex flex-col">
+              <div className="group h-full rounded-3xl border border-primary/15 bg-white/5 md:backdrop-blur-xl p-6 sm:p-10 md:transition-transform md:duration-500 md:hover:-translate-y-2 md:hover:border-primary/60 md:hover:shadow-[0_0_35px_rgba(249,115,22,.25)] flex flex-col">
                 <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-5">
                   Our Values
                 </h3>
@@ -238,7 +241,7 @@ export default function About() {
                   project we deliver.
                 </p>
               </div>
-              <div className="group h-full rounded-3xl border border-primary/15 bg-white/5 md:backdrop-blur-xl p-6 sm:p-10 transition-transform duration-500 hover:-translate-y-2 hover:border-primary/60 md:hover:shadow-[0_0_35px_rgba(249,115,22,.25)] flex flex-col">
+              <div className="group h-full rounded-3xl border border-primary/15 bg-white/5 md:backdrop-blur-xl p-6 sm:p-10 md:transition-transform md:duration-500 md:hover:-translate-y-2 md:hover:border-primary/60 md:hover:shadow-[0_0_35px_rgba(249,115,22,.25)] flex flex-col">
                 <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-5">
                   Our Approach & Culture
                 </h3>
@@ -283,7 +286,7 @@ export default function About() {
                     className="group flex items-start gap-5 sm:gap-6">
                     <div className="flex-shrink-0 transition-transform duration-300 md:group-hover:drop-shadow-[0_0_12px_rgba(249,115,22,0.8)]">
                       <Icon
-                        className="w-8 h-8 text-primary group-hover:text-white"
+                        className="w-8 h-8 text-primary md:group-hover:text-white"
                         strokeWidth={1.7}
                       />
                     </div>
@@ -339,7 +342,7 @@ export default function About() {
                 return (
                   <div
                     key={step.number}
-                    className="group rounded-3xl border border-primary/15 bg-white/5 md:backdrop-blur-xl p-6 sm:p-8 transition-transform duration-500 hover:-translate-y-2 hover:border-primary md:hover:shadow-[0_0_35px_rgba(249,115,22,.2)]">
+                    className="group rounded-3xl border border-primary/15 bg-white/5 md:backdrop-blur-xl p-6 sm:p-8 md:transition-transform md:duration-500 md:hover:-translate-y-2 md:hover:border-primary md:hover:shadow-[0_0_35px_rgba(249,115,22,.2)]">
                     <div className="flex items-center justify-between mb-6 sm:mb-8">
                       <Icon
                         className="w-9 h-9 text-primary md:group-hover:drop-shadow-[0_0_10px_rgba(249,115,22,.8)] transition-transform"

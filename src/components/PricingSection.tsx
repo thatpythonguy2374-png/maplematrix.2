@@ -100,10 +100,10 @@ const PricingSection = () => {
             <div
               key={plan.id}
               className={cn(
-                "group relative rounded-2xl px-6 py-6 overflow-hidden flex flex-col transition duration-300",
+                "group relative rounded-2xl px-6 py-6 overflow-hidden flex flex-col md:transition md:duration-300",
                 plan.popular
-                  ? "bg-card border-2 border-primary shadow-[0_0_30px_-5px_hsl(var(--primary)/0.3)] hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(0,0,0,0.3),0_0_40px_-5px_hsl(var(--primary)/0.4)]"
-                  : "bg-card border border-border hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]",
+                  ? "bg-card border-2 border-primary shadow-[0_0_30px_-5px_hsl(var(--primary)/0.3)] md:hover:-translate-y-1 md:hover:shadow-[0_8px_40px_rgba(0,0,0,0.3),0_0_40px_-5px_hsl(var(--primary)/0.4)]"
+                  : "bg-card border border-border md:hover:-translate-y-1 md:hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]",
                 "hidden md:flex",
                 activePlan === plan.id && "flex md:flex",
               )}>
@@ -113,7 +113,10 @@ const PricingSection = () => {
                 </div>
               )}
 
-              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {/* Shimmer sweep was previously keyed off an unscoped group-hover, so a
+                  tap on mobile would trigger and hold it with no matching hover intent.
+                  Gated to md: since it's a hover-only decorative effect. */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-300">
                 <div className="absolute inset-[-100%] bg-[linear-gradient(90deg,transparent_0%,transparent_40%,hsl(var(--primary)/0.12)_50%,transparent_60%,transparent_100%)]" />
               </div>
 
@@ -141,7 +144,7 @@ const PricingSection = () => {
                     <Button
                       asChild
                       variant="outline"
-                      className="w-full h-14 rounded-lg border-primary/30 hover:bg-primary/10 transition-colors">
+                      className="w-full h-14 rounded-lg border-primary/30 md:hover:bg-primary/10 md:transition-colors">
                       <Link to="/start-project">{plan.cta} →</Link>
                     </Button>
                   ) : (

@@ -52,11 +52,13 @@ const ProcessSection = () => {
             return (
               <div
                 key={step.number}
-                // transition-all -> transition: border/shadow/transform are covered by
-                // Tailwind's default transition set, so nothing visible changes, but the
-                // browser no longer has to watch layout properties on 4 cards at once.
-                className="group relative bg-card border border-border rounded-2xl p-5 sm:p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:border-primary/20">
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                // Card lift/shadow/border-color were previously unscoped hover: classes,
+                // so a tap on mobile would trigger and hold them with no matching hover
+                // intent. Gated to md: and up, where real hover exists.
+                className="group relative bg-card border border-border rounded-2xl p-5 sm:p-6 md:transition md:duration-300 md:hover:-translate-y-1 md:hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] md:hover:border-primary/20">
+                {/* Radial glow overlay was keyed off an unscoped group-hover as well;
+                    same tap-and-stick issue on mobile, now gated to md:. */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-300 pointer-events-none">
                   <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,hsl(var(--primary)/0.08)_0%,transparent_70%)]" />
                 </div>
                 <div className="relative z-10">

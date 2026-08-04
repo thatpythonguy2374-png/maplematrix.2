@@ -193,9 +193,10 @@ export default function Services() {
                       </div>
 
                       {/* Plain SVG icon, no blur/filter — cheap, safe to keep on mobile.
-                          Opacity transition still keyed off group-hover, which now
-                          only actually fires on md:+ per the parent's hover scoping. */}
-                      <Terminal className="absolute -right-8 -bottom-8 w-40 h-40 sm:w-48 sm:h-48 text-primary opacity-[0.03] transition-opacity duration-1000 group-hover:opacity-[0.06]" />
+                          Opacity transition now gated to md: as well, since on mobile a
+                          tap can trigger and hold the :hover state, causing the icon to
+                          fade in/out unexpectedly with no matching pointer interaction. */}
+                      <Terminal className="absolute -right-8 -bottom-8 w-40 h-40 sm:w-48 sm:h-48 text-primary opacity-[0.03] md:transition-opacity md:duration-1000 md:group-hover:opacity-[0.06]" />
                     </div>
                   );
                 })}
@@ -243,12 +244,17 @@ export default function Services() {
                         key={step.number}
                         className="flex gap-5 sm:gap-8 group relative">
                         <div className="flex-none relative z-10">
-                          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-border bg-background flex items-center justify-center text-primary text-sm font-semibold transition-colors duration-500 group-hover:bg-primary group-hover:text-white shadow-sm">
+                          {/* bg/text color flip on the step number circle was previously
+                              unscoped, so a tap on mobile would flip it to filled-primary
+                              and stick until the user tapped elsewhere. Gated to md: now. */}
+                          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-border bg-background flex items-center justify-center text-primary text-sm font-semibold md:transition-colors md:duration-500 md:group-hover:bg-primary md:group-hover:text-white shadow-sm">
                             {step.number}
                           </div>
                         </div>
                         <div className="pt-1">
-                          <h4 className="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 transition-colors group-hover:text-primary">
+                          {/* Title color-on-hover was also unscoped; same tap-and-stick
+                              issue on mobile, now gated to md: as well. */}
+                          <h4 className="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 md:transition-colors md:group-hover:text-primary">
                             {step.title}
                           </h4>
                           <p className="text-muted-foreground leading-7 sm:leading-8 mb-4 sm:mb-5">

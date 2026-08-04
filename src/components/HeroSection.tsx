@@ -8,7 +8,6 @@ const HeroSection = () => {
   // reason to run two independent listeners/state updates for the same input.
   const rawParallax = useScrollParallax(1);
   const headlineParallax = rawParallax * 0.08;
-  const subheadlineParallax = rawParallax * 0.05;
 
   return (
     <section className="relative min-h-screen flex flex-col">
